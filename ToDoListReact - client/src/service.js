@@ -27,14 +27,12 @@ const service = {
     const result = await axios.get('/items');
     return result.data;
   },
-
   addTask: async (name) => {
     await axios.post('/items', { name: name, isComplete: false });
   },
 
   setCompleted: async (id, isComplete) => {
-    var i = await axios.get(`/items/${id}`);
-    await axios.put(`/items/${id}`, { name: i.data.name, isComplete: isComplete });
+    await axios.put(`/items/${id}`, { name: " ", isComplete: isComplete });
   },
 
   deleteTask: async (id) => {

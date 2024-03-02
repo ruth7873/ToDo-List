@@ -17,22 +17,8 @@ app.MapGet(
     "/items",
     async (ToDoDbContext dbContext) =>
     {
-        // קוד לקבלת רשימת הפריטים מהמסד נתונים
         var items =await dbContext.Items.ToListAsync();
-
-        // טקסט להחזרה כתוצאה (לדוגמה, פורמט JSON)
         return items;
-    }
-);
-app.MapGet(
-    "/items/{id}",
-    async (int id, ToDoDbContext dbContext) =>
-    {
-        // קוד לקבלת רשימת הפריטים מהמסד נתונים
-        var items =await dbContext.Items.ToListAsync();
-        var i = items.Find(x => x.Id == id);
-        // טקסט להחזרה כתוצאה (לדוגמה, פורמט JSON)
-        return i;
     }
 );
 app.MapPost(
@@ -44,8 +30,6 @@ app.MapPost(
         return Results.Created($"/", item);
     }
 );
-
-// app.MapPost("/", () => "This is a POST");
 app.MapPut(
     "/items/{id}",
     async (int id, Item item, ToDoDbContext dbContext) =>
@@ -53,8 +37,6 @@ app.MapPut(
         var i = await dbContext.Items.FindAsync(id);
         if (i == null)
             return Results.BadRequest("there is no such item!!!");
-
-        i.Name = item.Name;
         i.IsComplete = item.IsComplete;
 
         await dbContext.SaveChangesAsync();
@@ -77,11 +59,4 @@ app.UseCors(builder =>
            .AllowAnyMethod()
            .AllowAnyHeader();
 });
-
-// app.MapMethods(
-//     "/options-or-head",
-//     new[] { "OPTIONS", "HEAD" },
-//     () => "This is an options or head request "
-// );
-
 app.Run();
